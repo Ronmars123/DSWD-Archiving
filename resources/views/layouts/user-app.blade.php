@@ -31,12 +31,13 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center">
-          <div class="sidebar-brand-icon rotate-n-15">
-          </div>
-          <div class="sidebar-brand">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-image">
+        <div class="sidebar-brand-icon rotate-n-15"></div>
+        <div class="sidebar-brand">
+          <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-[150px] h-auto">
         </div>
-        </a>
+      </a>
+
+
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">

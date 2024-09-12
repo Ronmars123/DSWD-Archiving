@@ -29,7 +29,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="inputMiddleName">Middle name</label>
-                                <input class="form-control" wire:model='mname' id="mname" name="mname" placeholder="Enter your Middle Name" required>
+                                <input class="form-control" wire:model='mname' id="mname" name="mname" placeholder="Enter your Middle Name" >
                                   @error('mname')
                                   <span class="text-danger">{{ $message }}</span>
                                   @enderror

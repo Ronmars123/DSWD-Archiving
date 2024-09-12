@@ -101,44 +101,52 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($documents as $document)
-                            <tr>
-                                <td>{{ $document->reference_num }}</td>{{--1 referencenumber --}}
-                                <td>{{ $document->filetype }}</td>{{--1 File Type --}}
-                                <td>
-                                    <a href="#" wire:click="showDocumentDetails({{ $document->id }})" style="text-decoration: underline; cursor: pointer;">
-                                        {{ $document->document }}
-                                    </a>
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($document->inclusive_dates)->toDateString() }}</td>
-                                <td>{{ $document->volume }}</td>{{-- 5Records Volume --}}
-                                <td>{{ $document->records_medium }}</td>{{-- 6Records Midium --}}
-                                <td>{{ $document->restrictions}}</td>{{-- 8Documents Restrictions --}}
-                                <td>{{ $document->records_location}}</td>{{--7 Documents Located --}}
-                                <td>{{ $document->doctype }}</td>{{-- 3Document type --}}
-                                <td>{{ $document->due_date ? \Carbon\Carbon::parse($document->due_date)->toDateString() : 'Permanent' }}</td>
-                                <td class="text-center">
-                                    <button wire:click="downloadfile({{ $document->id }})"
-                                        class="btn btn-success btn-sm">Download</button>
-                                </td>
-                                <td class="text-center">
+                        @forelse ($documents as $document)
+                        <tr>
+                            <td>{{ $document->reference_num }}</td>{{--1 referencenumber --}}
+                            <td>{{ $document->filetype }}</td>{{--1 File Type --}}
+                            <td>
+                                <a href="#" wire:click="showDocumentDetails({{ $document->id }})" style="text-decoration: underline; cursor: pointer;">
+                                    {{ $document->document }}
+                                </a>
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($document->inclusive_dates)->toDateString() }}</td>
+                            <td>{{ $document->volume }}</td>{{-- 5Records Volume --}}
+                            <td>{{ $document->records_medium }}</td>{{-- 6Records Midium --}}
+                            <td>{{ $document->restrictions}}</td>{{-- 8Documents Restrictions --}}
+                            <td>{{ $document->records_location}}</td>{{--7 Documents Located --}}
+                            <td>{{ $document->doctype }}</td>{{-- 3Document type --}}
+                            <td>{{ $document->due_date ? \Carbon\Carbon::parse($document->due_date)->toDateString() : 'Permanent' }}</td>
+                            <td class="text-center">
+                                <button wire:click="downloadfile({{ $document->id }})"
+                                    class="btn btn-success btn-sm">Download</button>
+                            </td>
+                            <td class="text-center">
                                 @if($document->doctype == 'Temporary')
-                                    <button wire:click="deleteDocument({{ $document->id }})" class="btn btn-danger btn-sm">Delete</button>
+                                    <button onclick="confirmDeletion({{ $document->id }})" class="btn btn-danger btn-sm">Delete</button>
                                 @endif
                             </td>
-                                <td class="text-center">
-                                    <button wire:click="editReferenceNumber({{ $document->id }})" class="btn btn-info btn-sm">Edit</button>
-                                </td>
-                            </tr>
+                            <td class="text-center">
+                                <button wire:click="editReferenceNumber({{ $document->id }})" class="btn btn-info btn-sm">Edit</button>
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="20" class="text-center">
-                                    <h4 class="text-center">Document Not Found</h4>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="20" class="text-center">
+                                <h4 class="text-center">Document Not Found</h4>
+                            </td>
+                        </tr>
                         @endforelse
+                    </tbody>
 
-                        </tbody>
+                    <script>
+                        function confirmDeletion(id) {
+                            if (confirm('Are you sure you want to delete this document?')) {
+                                @this.call('deleteDocument', id);
+                            }
+                        }
+                    </script>
+
                     </table>
                     @if(count($documents))
                         {{ $documents->links('livewire-pagination-links') }}
@@ -159,7 +167,7 @@
                 <form wire:submit.prevent='save'>
                     <div class="form-group my-1">
                         <label for="volume">Enter Reference Number</label>
-                        <input type="number" wire:model='reference_num' class="form-control" id="filetype" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" required>
+                        <input type="number" wire:model='reference_num' class="form-control" id="reference_num" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" required>
                         @error('reference_num')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -197,9 +205,11 @@
 
                 <div class="form-group my-1">
                     <label for="records_medium">Enter Records Medium</label>
-                    <input type="text" wire:model='records_medium' class="form-control" id="filetype" required>
-                </div>
-
+                    <input type="text" wire:model='records_medium' class="form-control" id="records_medium" required>
+                    @error('records_medium')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                 </div>
                     <div class="form-group my-1">
                         <label for="volume">Enter Volume</label>
                         <input type="number" wire:model='volume' class="form-control" id="filetype" required>

@@ -33,7 +33,7 @@
           <div class="sidebar-brand-icon rotate-n-15">
           </div>
           <div class="sidebar-brand">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-image">
+          <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-image img-fluid">
         </div>
         </a>
 

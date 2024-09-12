@@ -102,6 +102,7 @@ class Document extends Component
         $this->validate([
             'records_location' => 'required',
             'description' => 'required',
+            'records_medium' => 'required|string|max:255',
         ]);
 
         $document = ModelsDocument::find($this->editingDocumentId);
@@ -296,22 +297,23 @@ class Document extends Component
         // Validate form input
         $this->validate([
             'filetype' => 'required',
-            'reference_num'=>'required|unique:documents,reference_num',
+            'reference_num' => 'required|unique:documents,reference_num',
             'document' => 'required|file|mimes:pdf|max:1024000',
             'doctype' => 'required',
             'dueDate' => $this->doctype == 'Temporary' ? 'required|date' : '',
             'volume' => 'required|numeric',
-            'records_medium'=>'required',
-            'records_location'=>'required',
-            'restrictions'=>'required',
-            'description'=>'',
-            'inclusive_dates'=>'required|date', // Corrected attribute name here
+           'records_medium' => 'required|string|max:12', 
+            'records_location' => 'required',
+            'restrictions' => 'required',
+            'description' => '',
+            'inclusive_dates' => 'required|date', 
             'administrativeType' => 'required_if:filetype,Administrative',
             'financialType' => 'required_if:filetype,Financial',
             'legalrecordsType' => 'required_if:filetype,LegalRecords',
-            'personnelrecordsType' => 'required_if:filetype,personnelrecordsType',
-            'socialservicesType' => 'required_if:filetype,socialservicesType',
+            'personnelrecordsType' => 'required_if:filetype,PersonnelRecords',
+            'socialservicesType' => 'required_if:filetype,SocialServices',
         ]);
+        
 
         // Set up file storage path and create a new document instance
         $currentDate = Carbon::now()->format('Y-m-d');
@@ -324,7 +326,7 @@ class Document extends Component
             'path' => $this->path,
             'document' => $this->document->getClientOriginalName(),
             'volume' => $this->volume,
-            'records_medium'=>$this->records_medium,
+            'records_medium'=>$this->records_medium = substr($this->records_medium, 0, 12),
             'records_location'=>$this->records_location,
             'restrictions'=>$this->restrictions,
             'description'=>$this->description,

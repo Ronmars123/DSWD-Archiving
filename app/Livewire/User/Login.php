@@ -16,25 +16,30 @@ class Login extends Component
 
     public function login()
     {
+      
         $this->validate([
-            'email' => ['email', 'required'],
-            'password' => ['required', 'string', 'min:3', 'max:12']
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string', 'min:3', 'max:12'],
         ]);
-
-        $authenticated = Auth::attempt(['email' => $this->email, 'password' => $this->password]);
-
-        if ($authenticated) {
-            $user = Auth::user();
-
+    
+  
+        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+            $user = Auth::user(); 
+    
+          
             if ($user->custom_token != 1) {
-                Auth::logout(); // Log out the user
-                $this->reset(); // Reset the form fields
-                session()->flash('error', 'Still not Approved by the Admin.');
-            } else {
-                return redirect(route('user.dashboard'));
+                Auth::logout(); 
+                $this->reset(); 
+                session()->flash('error', 'Your account is not approved by the Admin yet.');
+                return;
             }
+    
+           
+            return redirect()->route('user.dashboard');
         } else {
-            session()->flash('error', 'Invalid Email and password');
+         
+            session()->flash('error', 'Invalid email or password.');
         }
     }
+    
 }

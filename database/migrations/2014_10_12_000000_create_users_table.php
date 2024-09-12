@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('email', 30)->unique();
             $table->string('fname', 12); // Set the length to 12
-            $table->string('mname',1);
+            $table->string('mname')->nullable();
             $table->string('lname', 12); // Set the length to 12
             $table->string('password',60); // Set the length to 12
             $table->string('remember_token',60)->nullable();

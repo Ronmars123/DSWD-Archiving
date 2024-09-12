@@ -28,7 +28,7 @@ class Register extends Component
         ]);
 
         $users->fname = $this->fname;
-        $users->mname = $this->mname;
+        $users->mname = $this->mname ? $this->mname : null; 
         $users->lname = $this->lname;
         $users->email = $this->email;
         $users->password = Hash::make($this->password);
