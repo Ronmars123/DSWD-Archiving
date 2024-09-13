@@ -1,6 +1,6 @@
 <div>
     <x-slot name="title">
-        Admin Login
+        User Login
     </x-slot>
     <div class="container">
         <div class="row justify-content-center">
@@ -33,10 +33,6 @@
                             <div class="w-100">
                                 <h3 class="mb-4" style="color: rgb(79, 111, 255); font-weight: bold;">User Login</h3>
                             </div>
-                            <div class="w-100">
-                                <p class="social-media d-flex justify-content-end">
-                                </p>
-                            </div>
                         </div>
                         <form wire:submit.prevent='login'>
                             <div class="form-group">
@@ -67,7 +63,7 @@
                                 <a href="{{ route('admin.login') }}" class="admin-login-link">Login as Admin</a>
                             </div>
                             <div class="w-50 text-right">
-                             <a href="{{ route('user.register') }}" class="admin-login-link">Sign Up</a></p>
+                                <a href="{{ route('user.register') }}" class="admin-login-link">Sign Up</a>
                             </div>
                         </div>
                     </div>

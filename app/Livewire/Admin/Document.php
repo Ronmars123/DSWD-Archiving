@@ -102,7 +102,6 @@ class Document extends Component
         $this->validate([
             'records_location' => 'required',
             'description' => 'required',
-            'records_medium' => 'required|string|max:255',
         ]);
 
         $document = ModelsDocument::find($this->editingDocumentId);
@@ -115,6 +114,8 @@ class Document extends Component
 
             // You may also add a success message if needed
             session()->flash('success', 'Updated Successfully.');
+            
+            $this->reset(['records_location', 'description']);
 
             // Reset the editing state and close the modal
             $this->cancelEditReferenceNumber();

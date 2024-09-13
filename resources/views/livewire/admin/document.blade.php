@@ -59,7 +59,7 @@
                                             @endif
                                         </div>
                                     </th>
-                                    <th class="align-middle" style="width: 15%;">Records Titile and Description</th>
+                                    <th class="align-middle" style="width: 15%;">Records Title and Description</th>
                                     <th class="align-middle" style="width: 15%;">
                                         <div wire:click="sortBy('inclusive_dates')" style="cursor: pointer; color: #ffffff; display: flex; align-items: center;">
                                             <span style="margin-right: 5px;">Period Covered Inclusive Date</span>
@@ -1173,46 +1173,56 @@
             </div>
         </div>
     </div>
-        @if ($showEditModal)
-        <div x-data="{ open: true }">
-            <div x-show="open" x-cloak>
-                <div class="modal fade show" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" style="display: block;">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header" style="background-color: #4e73df; color: #ffffff;">
-                                <h5 class="modal-title" id="editModalLabel">Edit</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="cancelEditReferenceNumber" style="color: #ffffff; border: none; outline: none;">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form wire:submit.prevent="updateReferenceNumber">
-                                    <div class="form-group my-1">
-                                        <label for="records_location">Select Location Records</label>
-                                        <select wire:model='records_location' class="form-control" id="records_location" required>
-                                            <option value="">Select Location</option>
-                                            <option value="Warehouse">Warehouse</option>
-                                            <option value="RDS Office">RDS Office</option>
-                                            @foreach ($locationOptions as $location)
+    @if ($showEditModal)
+    <div x-data="{ open: true }" x-init="
+        Livewire.on('closeModal', () => {
+            open = false;  // Close the modal
+        });
+    ">
+        <div x-show="open" x-cloak>
+            <div class="modal fade show" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" style="display: block;">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #4e73df; color: #ffffff;">
+                            <h5 class="modal-title" id="editModalLabel">Edit</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="cancelEditReferenceNumber" style="color: #ffffff; border: none; outline: none;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form wire:submit.prevent="updateReferenceNumber">
+                                <div class="form-group my-1">
+                                    <label for="records_location">Select Location Records</label>
+                                    <select wire:model='records_location' class="form-control" id="records_location" required>
+                                        <option value="">Select Location</option>
+                                        <option value="Warehouse">Warehouse</option>
+                                        <option value="RDS Office">RDS Office</option>
+                                        @foreach ($locationOptions as $location)
                                             @if ($location)
                                                 <option value="{{ $location }}">{{ $location }}</option>
                                             @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group my-2">
-                                        <label for="description" class="mb-1">Description</label>
-                                        <textarea rows="4" wire:model='description' class="form-control" id="description" required></textarea>
-                                    </div>
-                                    <button type='submit' class="btn btn-primary">Save Changes</button>
-                                    <button type='button' wire:click="cancelEditReferenceNumber" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                </form>
-                            </div>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Description field -->
+                                <div class="form-group my-2">
+                                    <label for="description" class="mb-1">Description</label>
+                                    <textarea rows="4" wire:model='description' class="form-control" id="description" required></textarea>
+                                </div>
+
+                                <!-- Save button -->
+                                <button type="submit" class="btn btn-primary">
+                                    Save Changes
+                                </button>
+                                <button type="button" wire:click="cancelEditReferenceNumber" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="modal-backdrop fade show"></div>
             </div>
+            <div class="modal-backdrop fade show"></div>
         </div>
-    @endif
+    </div>
+@endif
 </div>
